@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 def index(request):
-    return HttpResponse('article')
+    app_name = 'article'
+    return render(request, 'articles/article.html', context={'app_name' : app_name})
