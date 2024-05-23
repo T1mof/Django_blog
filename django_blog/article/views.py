@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views import View
-from django.urls import reverse
+
+from django_blog.article.models import Article
 
 class Index(View):
 
@@ -9,3 +10,11 @@ class Index(View):
 
 def index(request, tags, article_id):
     return render(request, 'articles/custom_article.html', context={'tags': tags, 'article_id': article_id})
+
+class IndexView(View):
+
+    def get(self, request, *args, **kwargs):
+        articles = Article.objects.all()[:15]
+        return render(request, 'articles/index.html', context={
+            'articles': articles,
+        })
