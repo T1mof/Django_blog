@@ -6,4 +6,12 @@
         <h2><a href="{% url 'article' article.id %}">{{ article.name }}</a></h2>
         <div>{{ article.body|slice:":200" }}</div>
     {% endfor %}
+
+{% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+{% endif %}
 {% endblock %}
