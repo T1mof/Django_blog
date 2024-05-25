@@ -1,15 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import View
 
 from django_blog.article.models import Article
-
-class Index(View):
-
-    def get(self, request, *args, **kwargs):
-        return redirect(reverse("article", args={"tags": "python", 'article_id': 42}))
-
-def index(request, tags, article_id):
-    return render(request, 'articles/custom_article.html', context={'tags': tags, 'article_id': article_id})
 
 class IndexView(View):
 
@@ -18,3 +10,16 @@ class IndexView(View):
         return render(request, 'articles/index.html', context={
             'articles': articles,
         })
+
+class ArticleView(View):
+
+    def get(self, request, *args, **kwargs):
+        article = get_object_or_404(Article, id=kwargs['id'])
+        return render(request, 'articles/show.html', context={'article': article})
+
+class ArticleCommentsView(View):
+
+    def get(self, request, *args, **kwargs):
+        comment = get_object_or_404(Comment, id=kwargs['id'], article_id=kwargs['article_id'])
+
+        return render()
