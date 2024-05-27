@@ -18,13 +18,6 @@ class ArticleView(View):
         article = get_object_or_404(Article, id=kwargs['id'])
         return render(request, 'articles/show.html', context={'article': article})
 
-class ArticleCommentsView(View):
-
-    def get(self, request, *args, **kwargs):
-        comment = get_object_or_404(Comment, id=kwargs['id'], article_id=kwargs['article_id'])
-
-        return render()
-
 class ArticleFormView(View):
 
     def get(self, request, *args, **kwargs):
@@ -54,3 +47,13 @@ class ArticleFormEditView(View):
         if form.is_valid():
             form.save()
             return redirect('articles')
+        return render(request, 'articles/update.html', context={'form': form, 'article_id': article_id})
+
+class ArticleFormDeleteView(View):
+
+    def post(self, request, *args, **kwargs):
+        article_id = kwargs.get('id')
+        article = Article.objects.get(id=article_id)
+        if article:
+            article.delete()
+        return redirect('articles')
