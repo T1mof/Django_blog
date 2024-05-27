@@ -1,13 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="{% url 'articles_create' %}" method="post">
-    {% csrf_token %}
-    <table border="1">
-    {{ form }}
-    </table>
-    <input type="submit" value="Создать">
-</form>
 
 {% if form.errors %}
 <div>
@@ -18,5 +11,13 @@
     </ul>
 </div>
 {% endif %}
+
+<form action="{% url 'articles_create' %}" method="post">
+    {% csrf_token %}
+    <table border="1">
+    {{ form }}
+    </table>
+    <input type="submit" value="Создать">
+</form>
 
 {% endblock %}

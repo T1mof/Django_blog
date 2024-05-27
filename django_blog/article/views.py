@@ -25,7 +25,7 @@ class ArticleCommentsView(View):
 
         return render()
 
-class ArticleFormCreateView(View):
+class ArticleFormView(View):
 
     def get(self, request, *args, **kwargs):
         form = ArticleForm()
@@ -38,3 +38,19 @@ class ArticleFormCreateView(View):
             messages.success(request, 'Статья создана!')
             return redirect('articles')
         return render(request, 'articles/create.html', context={'form': form})
+
+class ArticleFormEditView(View):
+
+    def get(self, request, *args, **kwargs):
+        article_id = kwargs.get('id')
+        article = Article.objects.get(id=article_id)
+        form = ArticleForm(instance=article)
+        return render(request, 'articles/update.html', {'form': form, 'article_id': article_id})
+
+    def post(self, request, *args, **kwargs):
+        article_id = kwargs.get('id')
+        article = Article.objects.get(id=article_id)
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            form.save()
+            return redirect('articles')
